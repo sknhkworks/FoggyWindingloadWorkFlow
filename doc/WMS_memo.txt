@@ -1,0 +1,41 @@
+
+
+
+USER / ユーザー
+SECTION / 部署
+
+SECTION_KEYUSER / 部署担当者(課長、課長代理等)
+
+PART  / 部品、管理品目 ITEM?
+  ID
+  SIZETYPE    XS,S,M,L,LL
+  推奨棚        1upまで
+
+SHELF  / 棚　保管場所
+     * ISREALSHELF bool   物が置ける場所
+
+STOCK / 在庫実数
+    KEY: SHELF,PART
+    
+STOCK_HISTORY
+    YYYYMM, SEQ, DATE, PART, QTY(+/-), USER
+
+入庫、出庫、移動、棚卸、(返品管理)
+
+在庫確認、月締め、帳票発行
+
+マスタ登録（部品、棚）
+棚割
+
+
+商品セレクタ
+
+@startuml
+{
+PARTS: | "         "    | [Search] |
+ @   : | PAX-0001       |  |
+ QTY : | "       12"    |  |
+SHELF: | W1-0235-A0-120 | [Search] |
+ @     | [OK] [Cancel]  |
+}
+

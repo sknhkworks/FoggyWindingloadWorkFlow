@@ -26,8 +26,63 @@ from .settings_local import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.noigene.com']
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+"""
+Pandoc filter to process code blocks with class "plantuml" into
+plant-generated images.
+
+Needs `plantuml.jar` from http://plantuml.com/.
+"""
+
+import os
+import sys
+import subprocess
+
+from pandocfilters import toJSONFilter, Para, Image, get_filename4code, get_caption, get_extension
+
+
+def plantuml(key, value, format, _):
+    if key == 'CodeBlock':
+        [[ident, classes, keyvals], code] = value
+
+        if "plantuml" in classes or "puml" in classes:
+            caption, typef, keyvals = get_caption(keyvals)
+
+            filename = get_filename4code("plantuml", code)
+            # HTML5を追加
+            filetype = get_extension(format, "png", html5="svg", html="svg", latex="eps")
+
+            src = filename + '.uml'
+            dest = filename + '.' + filetype
+
+            if not os.path.isfile(dest):
+                # エンコード関連をコメントアウト
+                # txt = code.encode(sys.getfilesystemencoding())
+                # txt = str(code)
+                txt = code
+
+                if not txt.startswith("@start"):
+                    txt = "@startuml\n" + txt + "\n@enduml\n"
+
+                with open(src, "w") as f:
+                    f.write(txt)
+
+                # フィルターと同じディレクトリにplantuml.jarをおいておく
+                plantuml_jar = os.path.join(os.path.dirname(__file__) , "plantuml.jar")
+
+                # subprosess.callから変更
+                subprocess.run(["java", "-jar", plantuml_jar, "-t"+filetype, src])
+                sys.stderr.write('Created image ' + dest + '\n')
+
+            return Para([Image([ident, [], keyvals], caption, [dest, typef])])
+
+if __name__ == "__main__":
+    ALLOWED_HOSTS = [
+        'www.noigene.com',
+        '153.121.37.66',
+    ]
 
 # Application definition
 
@@ -38,6 +93,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bootstrap5',
+    'stocks.apps.StocksConfig',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +112,7 @@ ROOT_URLCONF = 'fwwf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,9 +161,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 

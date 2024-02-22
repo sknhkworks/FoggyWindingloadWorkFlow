@@ -1,0 +1,16 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Stock detail</title>
+</head>
+<body>
+<div>
+  <h1>ようこそDjango Stocks</h1>
+  <h2>{{ stock.title }} by {{ stock.created_by.username }} </h2>
+  <small>登校日:{{ stock.created_at}} </small>
+  <pre>{{ stock.code }}</pre>
+  <p>{{ stock.description }}</p>
+</div>
+</body>
+</html>
+

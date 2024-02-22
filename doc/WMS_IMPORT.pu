@@ -1,0 +1,9 @@
+@startsalt
+{
+PARTS: | "         "    | [Search] |
+ @   : | PAX-0001       |  |
+ QTY : | "       12"    |  |
+SHELF: | W1-0235-A0-120 | [Search] |
+ @     | [OK] [Cancel]  |
+}
+@endsalt

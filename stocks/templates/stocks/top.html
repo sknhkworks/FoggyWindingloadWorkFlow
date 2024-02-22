@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="welcome">
+  <h1 class="title">ようこそDjango Stocksへ</h1>
+  <p class="subtitle">あなたの知見を共有しましょう。</p>
+  <a class="btn btn-primary" href="{% url 'stocks_new' %}">
+      新規追加</a>
+</div>
+
+{% if stocks %}
+    <table class="table">
+    <thead>
+    <tr>
+        <th>投稿者</th>
+        <th>投稿日</th>
+        <th>タイトル</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stock in stocks %}
+    <tr>
+        <th>{{ stock.created_by.username }} </th>
+        <th>{{ stock.created_at}} </th>
+        <th><a href="{% url 'stocks_detail' stock.id %}">
+                {{ stock.title }} </a></th>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% else %}
+    <p> なし </p>
+{% endif %}
+{% endblock %}
