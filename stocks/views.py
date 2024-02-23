@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from stocks.models import Stocks
 from stocks.forms import StockForm
 
-# Create your views here.
 def top(request):
     stocks = Stocks.objects.all()
     context = { "stocks": stocks }
