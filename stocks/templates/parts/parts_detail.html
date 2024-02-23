@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block main %}
+    <h1>品目:詳細</h1>
+    <h2>{{ part.code }} : {{ part.name }} </h2>
+    <pre>{{ part.sizeType }}</pre>
+{% endblock %}
+

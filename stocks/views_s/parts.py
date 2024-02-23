@@ -4,6 +4,11 @@ from django.http import HttpResponse
 from stocks.models import Parts
 from stocks.forms import PartForm
 
+def parts_browse(request):
+    parts = Parts.objects.all()
+    context = { "parts": parts }
+    return render(request, "parts/parts_browse.html",context)
+
 def parts_new(request):
     if request.method == 'POST':
         form = PartForm(request.POST)
@@ -11,10 +16,16 @@ def parts_new(request):
           part = form.save(commit=False)
           part.created_by = request.user
           part.save()
-#          return redirect(stocks_detail, stock_id=stock.pk)
-          return render(request, "stocks/part_done.html", {'form': form})
+          return redirect(parts_detail, part_id=part.pk)
     else:
         form = PartForm()
-    return render(request, "stocks/part_done.html", {'form': form})
+
+    #return render(request, "stocks/part_new.html", {'form': form})
+    return render(request, "parts/parts_new.html", {'form': form})
+
+def parts_detail(request, part_id):
+    part = get_object_or_404(Parts, pk=part_id)
+    return render(request, "parts/parts_detail.html",
+            { 'part' : part })
 
 

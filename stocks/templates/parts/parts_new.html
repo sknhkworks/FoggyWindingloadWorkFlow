@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block main %}
+<h1>Parts登録</h1>
+<form method="post">
+    <div class="col-12 ml-auto">
+    {% csrf_token %}
+    <div class="btn-toolbar col-12" >
+        <div class="btn-group col-2">
+            <button type="button" class="btn"
+                onclick="location.href='{% url 'parts_browse' %}' ">
+                戻る</button>
+        </div>
+        <div class="btn-group col-8" ></div>
+        <div class="btn-group col-2 ml-auto mr_auto">
+            {% bootstrap_button button_type="submit" content="登録" %}
+        </div>
+
+    </div>
+    {% bootstrap_form form %}
+    </div>
+</form>
+{% endblock %}
+
