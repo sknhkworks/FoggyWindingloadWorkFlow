@@ -19,8 +19,10 @@ from django.urls import path, include
 
 from stocks.views import top
 
+#    path('', top, name='top'),
 urlpatterns = [
     path('', top, name='top'),
     path('stocks/', include('stocks.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
 ]
